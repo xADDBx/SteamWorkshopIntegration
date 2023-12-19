@@ -30,16 +30,17 @@ namespace Kingmaker.Modding {
                 return s_Instance;
             }
         }
-        public SteamWorkshopIntegration() {
+        private SteamWorkshopIntegration() {
             if (!SteamAPI.Init()) {
                 PFLog.Mods.Log("Could not initialize SteamAPI.");
                 return;
             }
             if (!SteamUser.BLoggedOn()) {
                 // SteamServersConnected_t callback could be added to handle the case that user reconnects during a game session.
-                PFLog.Mods.Log("Not logged connect to Steam Servers. User is either not logged in or Servers are down.");
+                PFLog.Mods.Log("Could not connect to Steam Servers. User is either not logged in or Servers are down.");
                 return;
             }
+            PFLog.Mods.Log("Starting Steam Workshop Integration.");
             try {
                 EnsureUnityModManagerFiles();
                 EnsureTemplateDirectoryAndSettingsFile();
@@ -61,14 +62,14 @@ namespace Kingmaker.Modding {
             if (ummDirectory.Exists) {
                 var files = new HashSet<string>(ummDirectory.GetFiles().Select(f => f.Name));
                 if (!UnityModManagerFileNames.All(files.Contains)) {
-                    TryReinstallUnityModManager();
+                    ReinstallUnityModManager();
                 }
             } else {
                 ummDirectory.Create();
-                TryReinstallUnityModManager();
+                ReinstallUnityModManager();
             }
         }
-        private void TryReinstallUnityModManager() {
+        private void ReinstallUnityModManager() {
             var unzipDir = new DirectoryInfo(Path.Combine(Path.GetTempPath(), "UMMAssets"));
             unzipDir.Create();
             ZipFile.ExtractToDirectory(UnityModManagerFilesZipPath, unzipDir.FullName);
