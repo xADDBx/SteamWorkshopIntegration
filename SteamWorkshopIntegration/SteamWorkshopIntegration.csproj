@@ -29,6 +29,26 @@
 			<HintPath>$(RogueTraderInstallDir)\WH40KRT_Data\Managed\Newtonsoft.Json.dll</HintPath>
 			<Private>False</Private>
 		</Reference>
+		<Reference Include="Utility.UnityExtensions">
+			<HintPath>$(RogueTraderInstallDir)\WH40KRT_Data\Managed\Utility.UnityExtensions.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="PFLog">
+			<HintPath>$(RogueTraderInstallDir)\WH40KRT_Data\Managed\PFLog.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="Owlcat.Runtime.Core">
+			<HintPath>$(RogueTraderInstallDir)\WH40KRT_Data\Managed\Owlcat.Runtime.Core.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="Steamworks.NET">
+			<HintPath>$(RogueTraderInstallDir)\WH40KRT_Data\Managed\Steamworks.NET.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="com.rlabrecque.steamworks.net">
+			<HintPath>$(RogueTraderInstallDir)\WH40KRT_Data\Managed\com.rlabrecque.steamworks.net.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
 	</ItemGroup>
 	<Target Name="Deploy" AfterTargets="Build">
 		<ItemGroup>

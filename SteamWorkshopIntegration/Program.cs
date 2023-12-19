@@ -25,7 +25,7 @@ namespace Injector {
             } catch (Exception e) {
                 originalCodeAssembly.Delete();
             }
-            // Add SteamWorkshopIntegration.Initialize to GameStarter.InitProcess just before PFLog.Mods.Log("Starting OwlcatUnityModManager");
+            // Add SteamWorkshopIntegration.Instance.Start to GameStarter.InitProcess just before PFLog.Mods.Log("Starting OwlcatUnityModManager");
             var assemblyDefinition = AssemblyDefinition.ReadAssembly(origCodePath + ".orig", parameters);
             var gameStarterType = assemblyDefinition.MainModule.Types.FirstOrDefault(t => t.FullName == "Kingmaker.GameStarter");
             var initProcessMethod = gameStarterType?.Methods.FirstOrDefault(m => m.Name == "InitProcess");
