@@ -16,6 +16,7 @@ using static UnityEngine.PlayerLoop.PreUpdate;
 namespace Kingmaker.Modding {
     public class SteamWorkshopIntegration {
         public static bool Started { get; private set; }
+        private static bool InitSucceeded = false;
         private static string SettingsFilePath => Path.Combine(ApplicationPaths.persistentDataPath, OwlcatModificationsManager.SettingsFileName);
         internal static string DefaultOwlcatTemplateDirectory => Path.Combine(ApplicationPaths.persistentDataPath, "Modifications");
         internal static string DefaultUMMDirectory => Path.Combine(ApplicationPaths.persistentDataPath, "UnityModManager");
@@ -52,9 +53,10 @@ namespace Kingmaker.Modding {
                 PFLog.Mods.Exception(ex);
                 return;
             }
+            InitSucceeded = true;
         }
         public void Start() {
-            if (Started) {
+            if (Started || !InitSucceeded) {
                 return;
             }
             Started = true;
