@@ -5,3 +5,4 @@
 3. Adjust the const GamePath in Program.cs
 4. Build project
 5. Unload and Reload (or restart VS) to rebuild cache
+6. To apply the change/use it run the solution vi Visual Studio
