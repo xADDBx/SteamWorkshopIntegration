@@ -35,7 +35,8 @@ namespace Kingmaker.Modding {
             IsDownloading = state.HasFlag(EItemState.k_EItemStateDownloading);
             NeedsDownload = (hasUpdate || !downloaded) && !IsDownloading;
             if (downloaded) {
-                SteamUGC.GetItemInstallInfo(mod, out var size, out var dir, 256, out var timestamp);
+                // Using a path buffer of size 4096 since those are the supported lengths on Mac and Linux. Windows by defaults supports 260 chars; Windows extended would support 32,767 but that might cause problems?
+                SteamUGC.GetItemInstallInfo(mod, out var size, out var dir, 4096, out var timestamp);
                 SteamLocation = dir;
                 SteamTimestamp = timestamp;
             }
@@ -67,13 +68,14 @@ namespace Kingmaker.Modding {
                 } else {
                     CopyDirectoryRecursively(new DirectoryInfo(SteamLocation), unzipDir.FullName);
                 }
-                // Workaround for nested zips; Why do they even exist
+                // Workaround for the case that the mod is shipped as a nested zip archive. This tries to resolve at most 3 nested layers.
+                // E.g. if the mod is shipped as 152365151351_legacy.bin which contains MyMod.zip (which might have another single zip for whatever reason?). MyMod.zip would be the first nested layer.
                 // Some mod might, for whatever reason, want to ship zip files. To prevent accidentally unpacking them too this will only continue until there are other files besides the single zip
                 int i = 0;
                 while (unzipDir.GetFiles().Length == 1 && unzipDir.GetFiles("*.zip")?.Length == 1) {
                     i += 1;
-                    if (i > 10) {
-                        throw new Exception("Error while trying to Install Workshop Item. Exceeded 10 nested zip archives.");
+                    if (i > 3) {
+                        throw new Exception("Error while trying to Install Workshop Item. Exceeded 3 nested zip archives.");
                     }
                     var newUnzipDir = new DirectoryInfo(Path.Combine(Path.GetTempPath(), "RogueTraderWorkshopMod" + SteamFileId.m_PublishedFileId.ToString() + "_nested"));
                     if (newUnzipDir.Exists) {
