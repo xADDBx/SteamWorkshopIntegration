@@ -2,7 +2,6 @@
 ## Build instructions
 1. Clone
 2. Open .sln with VS
-3. Adjust the const GamePath in Program.cs
-4. Build project
-5. Unload and Reload (or restart VS) to rebuild cache
-6. To apply the change/use it run the solution with Visual Studio
+3. Build project
+4. Unload and Reload (or restart VS) to rebuild cache
+5. To apply the change/use it run the solution with Visual Studio
